@@ -1,0 +1,122 @@
+﻿<Window x:Class="BloodBankWPFApplication.AddBlockStockForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BloodBankWPFApplication"
+        mc:Ignorable="d"
+        Title="Add New BlockStock Information" Height="450" Width="500" Icon=".\images\b.png">
+    <Window.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="buttonHover" TargetType="Button">
+                <Setter Property="Background" Value="Black"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Name="border" Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="Button.IsPressed" Value="True">
+                                    <Setter TargetName="border" Property="BorderBrush" Value="red" />
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="White"/>
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="TextBox" x:Key="textBox">
+                <Setter Property="VerticalAlignment" Value="Stretch"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Foreground" Value="#000"/>
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type TextBox}">
+                            <Border x:Name="border"
+                                    CornerRadius="5"
+                                    BorderBrush="DarkGray"
+                                    BorderThickness="1"
+                                    Background="#fff"
+                                    >
+                                <ScrollViewer x:Name="PART_ContentHost"
+                                                Focusable="false"
+                                                HorizontalScrollBarVisibility="Hidden"
+                                                VerticalScrollBarVisibility="Hidden"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="true">
+                                    <Setter Property="BorderBrush" TargetName="border" Value="Red"/>
+                                    <Setter Property="Foreground" Value="Red" />
+
+                                </Trigger>
+                                <Trigger Property="IsFocused" Value="true">
+                                    <Setter Property="Foreground" Value="Black" />
+                                    <Setter Property="BorderBrush" TargetName="border" Value="Blue"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="500">
+            <StackPanel Background="FloralWhite" Height="570">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Blood Bank Name" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" FontSize="15" VerticalAlignment="Center" FontWeight="DemiBold"/>
+                    <TextBox  x:Name="txtBloodBankName"  Grid.Row="0" Grid.Column="1" Height="30" Width="250" HorizontalAlignment="Center"  Style="{StaticResource textBox}"></TextBox>
+
+                    <Label Content="Blood Group" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" FontSize="15" VerticalAlignment="Center" FontWeight="DemiBold"/>
+                    <ComboBox Name="cmbBloodGroup" FontSize="15" FontWeight="Medium" Grid.Row="1" Grid.Column="1" Height="30" Width="106" HorizontalAlignment="Left" Margin="35,10,0,10">
+                        <ComboBoxItem Content="AB+" IsSelected="True"></ComboBoxItem>
+                        <ComboBoxItem Content="AB-"></ComboBoxItem>
+                        <ComboBoxItem Content="O+"></ComboBoxItem>
+                        <ComboBoxItem Content="O-"></ComboBoxItem>
+                        <ComboBoxItem Content="B+"></ComboBoxItem>
+                        <ComboBoxItem Content="B-"></ComboBoxItem>
+                        <ComboBoxItem Content="A+"></ComboBoxItem>
+                        <ComboBoxItem Content="A-"></ComboBoxItem>
+                    </ComboBox>
+
+                    <Label Content="Number If Bottles" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" FontSize="15" VerticalAlignment="Center" FontWeight="DemiBold"/>
+                    <TextBox x:Name="txtNoOfBottles"  Grid.Row="2" Grid.Column="1" Height="30" Width="250" HorizontalAlignment="Center" Style="{StaticResource textBox}"></TextBox>
+
+                    <Label Content="City" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" FontSize="15" VerticalAlignment="Center" FontWeight="DemiBold"/>
+                    <TextBox x:Name="txtCity"  Grid.Row="3" Grid.Column="1" Height="30" Width="250" HorizontalAlignment="Center" Style="{StaticResource textBox}"></TextBox>
+
+                    <Label Content="Phone Number" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" FontSize="15" VerticalAlignment="Center" FontWeight="DemiBold"/>
+                    <TextBox x:Name="txtPhone"  Grid.Row="4" Grid.Column="1" Height="30" Width="250" HorizontalAlignment="Center" Style="{StaticResource textBox}"></TextBox>
+                </Grid>
+                <Grid Margin="30">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnSave" Click="btnSave_Click" Grid.Column="0" HorizontalAlignment="Right" Content="Save" Width="111" Height="40" FontSize="20" FontWeight="Bold" Background="#FFE4E1" Foreground="Black"/>
+                    <Button x:Name="btnUpdate" Click="btnUpdate_Click" Content="Update" Grid.Column="1" HorizontalAlignment="Left" Width="101" Height="40" FontSize="20" FontWeight="Bold" Foreground="DarkRed" Background="Aquamarine" Margin="33,0,0,0"/>
+                    
+                </Grid>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

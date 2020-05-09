@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BloodBankDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Address">
+    <Key>
+      <PropertyRef Name="addressId" />
+    </Key>
+    <Property Name="addressId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="streetNumber" Type="Int32" Nullable="false" />
+    <Property Name="streetName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="city" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="province" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="country" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="postalCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="BloodRequestPatientDetails" Relationship="Self.FK_BloodRequestPatientDetails_ToAddress" FromRole="Address" ToRole="BloodRequestPatientDetails" />
+    <NavigationProperty Name="DonorDetails" Relationship="Self.FK_DonorDetails_ToDonorAddress" FromRole="Address" ToRole="DonorDetails" />
+  </EntityType>
+  <EntityType Name="BloodRequestPatientDetail">
+    <Key>
+      <PropertyRef Name="patientId" />
+    </Key>
+    <Property Name="patientId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="firstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="lastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="bloodGroup" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="age" Type="Int32" Nullable="false" />
+    <Property Name="bloodUnit" Type="Int32" Nullable="false" />
+    <Property Name="reasonOfNeed" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="purpose" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="phoneNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="hospital" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="addressId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Address" Relationship="Self.FK_BloodRequestPatientDetails_ToAddress" FromRole="BloodRequestPatientDetails" ToRole="Address" />
+  </EntityType>
+  <EntityType Name="BloodStock">
+    <Key>
+      <PropertyRef Name="bloodStockId" />
+    </Key>
+    <Property Name="bloodStockId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="bloodBank" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="bloodGroup" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="numberOfBottles" Type="Int32" Nullable="false" />
+    <Property Name="city" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="phoneNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DonorDetail">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="firstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="lastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="bloodGroup" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="age" Type="Int32" Nullable="false" />
+    <Property Name="gender" Type="String" MaxLength="6" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="addressId" Type="Int32" Nullable="false" />
+    <Property Name="phoneNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Address" Relationship="Self.FK_DonorDetails_ToDonorAddress" FromRole="DonorDetails" ToRole="Address" />
+  </EntityType>
+  <EntityType Name="C__RefactorLog">
+    <Key>
+      <PropertyRef Name="OperationKey" />
+    </Key>
+    <Property Name="OperationKey" Type="Guid" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_BloodRequestPatientDetails_ToAddress">
+    <End Role="Address" Type="Self.Address" Multiplicity="1" />
+    <End Role="BloodRequestPatientDetails" Type="Self.BloodRequestPatientDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Address">
+        <PropertyRef Name="addressId" />
+      </Principal>
+      <Dependent Role="BloodRequestPatientDetails">
+        <PropertyRef Name="addressId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DonorDetails_ToDonorAddress">
+    <End Role="Address" Type="Self.Address" Multiplicity="1" />
+    <End Role="DonorDetails" Type="Self.DonorDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Address">
+        <PropertyRef Name="addressId" />
+      </Principal>
+      <Dependent Role="DonorDetails">
+        <PropertyRef Name="addressId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BloodBankDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Addresses" EntityType="Self.Address" />
+    <EntitySet Name="BloodRequestPatientDetails" EntityType="Self.BloodRequestPatientDetail" />
+    <EntitySet Name="BloodStocks" EntityType="Self.BloodStock" />
+    <EntitySet Name="DonorDetails" EntityType="Self.DonorDetail" />
+    <EntitySet Name="C__RefactorLog" EntityType="Self.C__RefactorLog" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <AssociationSet Name="FK_BloodRequestPatientDetails_ToAddress" Association="Self.FK_BloodRequestPatientDetails_ToAddress">
+      <End Role="Address" EntitySet="Addresses" />
+      <End Role="BloodRequestPatientDetails" EntitySet="BloodRequestPatientDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DonorDetails_ToDonorAddress" Association="Self.FK_DonorDetails_ToDonorAddress">
+      <End Role="Address" EntitySet="Addresses" />
+      <End Role="DonorDetails" EntitySet="DonorDetails" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

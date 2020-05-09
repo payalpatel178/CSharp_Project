@@ -1,0 +1,339 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BloodBankDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="addressId" />
+          </Key>
+          <Property Name="addressId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="streetNumber" Type="int" Nullable="false" />
+          <Property Name="streetName" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="city" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="province" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="country" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="postalCode" Type="nvarchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BloodRequestPatientDetails">
+          <Key>
+            <PropertyRef Name="patientId" />
+          </Key>
+          <Property Name="patientId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="firstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="lastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="bloodGroup" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="age" Type="int" Nullable="false" />
+          <Property Name="bloodUnit" Type="int" Nullable="false" />
+          <Property Name="reasonOfNeed" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="purpose" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="phoneNo" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="hospital" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="addressId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BloodStock">
+          <Key>
+            <PropertyRef Name="bloodStockId" />
+          </Key>
+          <Property Name="bloodStockId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="bloodBank" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="bloodGroup" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="numberOfBottles" Type="int" Nullable="false" />
+          <Property Name="city" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="phoneNo" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DonorDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="firstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="lastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="bloodGroup" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="age" Type="int" Nullable="false" />
+          <Property Name="gender" Type="nvarchar" MaxLength="6" Nullable="false" />
+          <Property Name="addressId" Type="int" Nullable="false" />
+          <Property Name="phoneNo" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="__RefactorLog">
+          <Key>
+            <PropertyRef Name="OperationKey" />
+          </Key>
+          <Property Name="OperationKey" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_BloodRequestPatientDetails_ToAddress">
+          <End Role="Address" Type="Self.Address" Multiplicity="1" />
+          <End Role="BloodRequestPatientDetails" Type="Self.BloodRequestPatientDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="addressId" />
+            </Principal>
+            <Dependent Role="BloodRequestPatientDetails">
+              <PropertyRef Name="addressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DonorDetails_ToDonorAddress">
+          <End Role="Address" Type="Self.Address" Multiplicity="1" />
+          <End Role="DonorDetails" Type="Self.DonorDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="addressId" />
+            </Principal>
+            <Dependent Role="DonorDetails">
+              <PropertyRef Name="addressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BloodBankDBModelStoreContainer">
+          <EntitySet Name="Address" EntityType="Self.Address" Schema="bloodbank" store:Type="Tables" />
+          <EntitySet Name="BloodRequestPatientDetails" EntityType="Self.BloodRequestPatientDetails" Schema="bloodbank" store:Type="Tables" />
+          <EntitySet Name="BloodStock" EntityType="Self.BloodStock" Schema="bloodbank" store:Type="Tables" />
+          <EntitySet Name="DonorDetails" EntityType="Self.DonorDetails" Schema="bloodbank" store:Type="Tables" />
+          <EntitySet Name="__RefactorLog" EntityType="Self.__RefactorLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BloodRequestPatientDetails_ToAddress" Association="Self.FK_BloodRequestPatientDetails_ToAddress">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="BloodRequestPatientDetails" EntitySet="BloodRequestPatientDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DonorDetails_ToDonorAddress" Association="Self.FK_DonorDetails_ToDonorAddress">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="DonorDetails" EntitySet="DonorDetails" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BloodBankDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="addressId" />
+          </Key>
+          <Property Name="addressId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="streetNumber" Type="Int32" Nullable="false" />
+          <Property Name="streetName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="city" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="province" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="country" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="postalCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="BloodRequestPatientDetails" Relationship="Self.FK_BloodRequestPatientDetails_ToAddress" FromRole="Address" ToRole="BloodRequestPatientDetails" />
+          <NavigationProperty Name="DonorDetails" Relationship="Self.FK_DonorDetails_ToDonorAddress" FromRole="Address" ToRole="DonorDetails" />
+        </EntityType>
+        <EntityType Name="BloodRequestPatientDetail">
+          <Key>
+            <PropertyRef Name="patientId" />
+          </Key>
+          <Property Name="patientId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="firstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="lastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="bloodGroup" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="age" Type="Int32" Nullable="false" />
+          <Property Name="bloodUnit" Type="Int32" Nullable="false" />
+          <Property Name="reasonOfNeed" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="purpose" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="phoneNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="hospital" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="addressId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Address" Relationship="Self.FK_BloodRequestPatientDetails_ToAddress" FromRole="BloodRequestPatientDetails" ToRole="Address" />
+        </EntityType>
+        <EntityType Name="BloodStock">
+          <Key>
+            <PropertyRef Name="bloodStockId" />
+          </Key>
+          <Property Name="bloodStockId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="bloodBank" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="bloodGroup" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="numberOfBottles" Type="Int32" Nullable="false" />
+          <Property Name="city" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="phoneNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DonorDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="firstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="lastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="bloodGroup" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="age" Type="Int32" Nullable="false" />
+          <Property Name="gender" Type="String" MaxLength="6" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="addressId" Type="Int32" Nullable="false" />
+          <Property Name="phoneNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Address" Relationship="Self.FK_DonorDetails_ToDonorAddress" FromRole="DonorDetails" ToRole="Address" />
+        </EntityType>
+        <EntityType Name="C__RefactorLog">
+          <Key>
+            <PropertyRef Name="OperationKey" />
+          </Key>
+          <Property Name="OperationKey" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_BloodRequestPatientDetails_ToAddress">
+          <End Role="Address" Type="Self.Address" Multiplicity="1" />
+          <End Role="BloodRequestPatientDetails" Type="Self.BloodRequestPatientDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="addressId" />
+            </Principal>
+            <Dependent Role="BloodRequestPatientDetails">
+              <PropertyRef Name="addressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DonorDetails_ToDonorAddress">
+          <End Role="Address" Type="Self.Address" Multiplicity="1" />
+          <End Role="DonorDetails" Type="Self.DonorDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="addressId" />
+            </Principal>
+            <Dependent Role="DonorDetails">
+              <PropertyRef Name="addressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BloodBankDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Addresses" EntityType="Self.Address" />
+          <EntitySet Name="BloodRequestPatientDetails" EntityType="Self.BloodRequestPatientDetail" />
+          <EntitySet Name="BloodStocks" EntityType="Self.BloodStock" />
+          <EntitySet Name="DonorDetails" EntityType="Self.DonorDetail" />
+          <EntitySet Name="C__RefactorLog" EntityType="Self.C__RefactorLog" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <AssociationSet Name="FK_BloodRequestPatientDetails_ToAddress" Association="Self.FK_BloodRequestPatientDetails_ToAddress">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="BloodRequestPatientDetails" EntitySet="BloodRequestPatientDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DonorDetails_ToDonorAddress" Association="Self.FK_DonorDetails_ToDonorAddress">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="DonorDetails" EntitySet="DonorDetails" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BloodBankDBModelStoreContainer" CdmEntityContainer="BloodBankDBEntities">
+          <EntitySetMapping Name="Addresses">
+            <EntityTypeMapping TypeName="BloodBankDBModel.Address">
+              <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="addressId" ColumnName="addressId" />
+                <ScalarProperty Name="streetNumber" ColumnName="streetNumber" />
+                <ScalarProperty Name="streetName" ColumnName="streetName" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="province" ColumnName="province" />
+                <ScalarProperty Name="country" ColumnName="country" />
+                <ScalarProperty Name="postalCode" ColumnName="postalCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BloodRequestPatientDetails">
+            <EntityTypeMapping TypeName="BloodBankDBModel.BloodRequestPatientDetail">
+              <MappingFragment StoreEntitySet="BloodRequestPatientDetails">
+                <ScalarProperty Name="patientId" ColumnName="patientId" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="bloodGroup" ColumnName="bloodGroup" />
+                <ScalarProperty Name="age" ColumnName="age" />
+                <ScalarProperty Name="bloodUnit" ColumnName="bloodUnit" />
+                <ScalarProperty Name="reasonOfNeed" ColumnName="reasonOfNeed" />
+                <ScalarProperty Name="purpose" ColumnName="purpose" />
+                <ScalarProperty Name="phoneNo" ColumnName="phoneNo" />
+                <ScalarProperty Name="hospital" ColumnName="hospital" />
+                <ScalarProperty Name="addressId" ColumnName="addressId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BloodStocks">
+            <EntityTypeMapping TypeName="BloodBankDBModel.BloodStock">
+              <MappingFragment StoreEntitySet="BloodStock">
+                <ScalarProperty Name="bloodStockId" ColumnName="bloodStockId" />
+                <ScalarProperty Name="bloodBank" ColumnName="bloodBank" />
+                <ScalarProperty Name="bloodGroup" ColumnName="bloodGroup" />
+                <ScalarProperty Name="numberOfBottles" ColumnName="numberOfBottles" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="phoneNo" ColumnName="phoneNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DonorDetails">
+            <EntityTypeMapping TypeName="BloodBankDBModel.DonorDetail">
+              <MappingFragment StoreEntitySet="DonorDetails">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="bloodGroup" ColumnName="bloodGroup" />
+                <ScalarProperty Name="age" ColumnName="age" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="addressId" ColumnName="addressId" />
+                <ScalarProperty Name="phoneNo" ColumnName="phoneNo" />
+                <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C__RefactorLog">
+            <EntityTypeMapping TypeName="BloodBankDBModel.C__RefactorLog">
+              <MappingFragment StoreEntitySet="__RefactorLog">
+                <ScalarProperty Name="OperationKey" ColumnName="OperationKey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="BloodBankDBModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

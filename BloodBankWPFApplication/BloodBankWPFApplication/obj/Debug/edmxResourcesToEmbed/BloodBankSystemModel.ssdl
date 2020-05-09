@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BloodBankDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Address">
+    <Key>
+      <PropertyRef Name="addressId" />
+    </Key>
+    <Property Name="addressId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="streetNumber" Type="int" Nullable="false" />
+    <Property Name="streetName" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="city" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="province" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="country" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="postalCode" Type="nvarchar" MaxLength="10" Nullable="false" />
+  </EntityType>
+  <EntityType Name="BloodRequestPatientDetails">
+    <Key>
+      <PropertyRef Name="patientId" />
+    </Key>
+    <Property Name="patientId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="firstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="lastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="bloodGroup" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="age" Type="int" Nullable="false" />
+    <Property Name="bloodUnit" Type="int" Nullable="false" />
+    <Property Name="reasonOfNeed" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="purpose" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="phoneNo" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="hospital" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="addressId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="BloodStock">
+    <Key>
+      <PropertyRef Name="bloodStockId" />
+    </Key>
+    <Property Name="bloodStockId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="bloodBank" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="bloodGroup" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="numberOfBottles" Type="int" Nullable="false" />
+    <Property Name="city" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="phoneNo" Type="nvarchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DonorDetails">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="firstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="lastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="bloodGroup" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="age" Type="int" Nullable="false" />
+    <Property Name="gender" Type="nvarchar" MaxLength="6" Nullable="false" />
+    <Property Name="addressId" Type="int" Nullable="false" />
+    <Property Name="phoneNo" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="email" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="__RefactorLog">
+    <Key>
+      <PropertyRef Name="OperationKey" />
+    </Key>
+    <Property Name="OperationKey" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <Association Name="FK_BloodRequestPatientDetails_ToAddress">
+    <End Role="Address" Type="Self.Address" Multiplicity="1" />
+    <End Role="BloodRequestPatientDetails" Type="Self.BloodRequestPatientDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Address">
+        <PropertyRef Name="addressId" />
+      </Principal>
+      <Dependent Role="BloodRequestPatientDetails">
+        <PropertyRef Name="addressId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DonorDetails_ToDonorAddress">
+    <End Role="Address" Type="Self.Address" Multiplicity="1" />
+    <End Role="DonorDetails" Type="Self.DonorDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Address">
+        <PropertyRef Name="addressId" />
+      </Principal>
+      <Dependent Role="DonorDetails">
+        <PropertyRef Name="addressId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BloodBankDBModelStoreContainer">
+    <EntitySet Name="Address" EntityType="Self.Address" Schema="bloodbank" store:Type="Tables" />
+    <EntitySet Name="BloodRequestPatientDetails" EntityType="Self.BloodRequestPatientDetails" Schema="bloodbank" store:Type="Tables" />
+    <EntitySet Name="BloodStock" EntityType="Self.BloodStock" Schema="bloodbank" store:Type="Tables" />
+    <EntitySet Name="DonorDetails" EntityType="Self.DonorDetails" Schema="bloodbank" store:Type="Tables" />
+    <EntitySet Name="__RefactorLog" EntityType="Self.__RefactorLog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_BloodRequestPatientDetails_ToAddress" Association="Self.FK_BloodRequestPatientDetails_ToAddress">
+      <End Role="Address" EntitySet="Address" />
+      <End Role="BloodRequestPatientDetails" EntitySet="BloodRequestPatientDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DonorDetails_ToDonorAddress" Association="Self.FK_DonorDetails_ToDonorAddress">
+      <End Role="Address" EntitySet="Address" />
+      <End Role="DonorDetails" EntitySet="DonorDetails" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
